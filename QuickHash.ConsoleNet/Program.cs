@@ -15,14 +15,17 @@ namespace QuickHash.ConsoleNet
             PrintHeader();
 
             string psw = @"Q@zw1234";
-            bool ImIn = false;
-            while (!ImIn)
+            bool imIn = false;
+            bool validDate = false;
+            string date = string.Empty;
+
+            while (!imIn)
             {
                 Console.Write("Password: ");
                 Console.CursorVisible = false;
 
                 if (psw.Equals(PromptPass()))
-                    ImIn = true;
+                    imIn = true;
                 else
                     Console.WriteLine("\nInvalid password. Please try again...\n");
 
@@ -37,11 +40,30 @@ namespace QuickHash.ConsoleNet
             while (true)
             {
                 Console.WriteLine("Insert a string to generate hash or ctrl+c to quit:");
-                string input = Console.ReadLine();
+                string wordInput = Console.ReadLine();
 
-                gen = new HashGenerator(input);
+                gen = new HashGenerator(wordInput);
+                int failCount = 0;
 
-                Console.WriteLine($"\nOutput: {gen.HashIt()}\n");
+                do
+                {
+                    if (failCount > 0)
+                        Console.WriteLine("\nInvalid date. Please use the format dddd-mm-yy, for example 2020-08-20:");
+                    else
+                    {
+                        Console.WriteLine("\nSpecify the date that the token should be valid for.");
+                        Console.WriteLine("Use the format dddd-mm-yy, for example 2020-08-20: ");
+                    }
+
+                    date = Console.ReadLine();
+                    if (!(validDate = InputHelper.ValidateDate(date)))
+                        failCount++;
+                    
+                } while (!validDate);
+
+                date = InputHelper.StripHyphens(date);
+
+                Console.WriteLine($"\nOutput: {gen.HashIt(date)}\n");
                 Console.Write("Export token? (y/n): ");
 
                 if (Console.ReadLine() == "y")

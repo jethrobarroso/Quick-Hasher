@@ -17,10 +17,10 @@ namespace QuickHash.Gen
 
         public HashGenerator() : this(string.Empty) { }
 
-        public string HashIt()
+        public string HashIt(string suffix)
         {
             StringBuilder sb = new StringBuilder();
-            var fullInput = _input + DateTime.Now.ToString("yyyyMMdd");
+            var fullInput = _input + suffix;
 
             using (SHA256 hash = SHA256.Create())
             {
@@ -38,7 +38,7 @@ namespace QuickHash.Gen
 
         public void ExportTokenFile()
         {
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\token.txt";
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\token.tkn";
 
             if (!string.IsNullOrEmpty(_output))
                 File.WriteAllText(filePath, _output);
