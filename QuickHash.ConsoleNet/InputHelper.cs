@@ -11,7 +11,7 @@ namespace QuickHash.ConsoleNet
     {
         public static bool ValidateDate(string input)
         {
-            string pattern = @"^\d{4}-((0[1-9])|1[12])-((0[0-9])|(1[0-9])|(2[0-9])|(3[01]))$";
+            string pattern = @"^\d{4}-((0[1-9])|1[012])-((0[0-9])|(1[0-9])|(2[0-9])|(3[01]))$";
             bool result = Regex.IsMatch(input, pattern);
 
             return result;
